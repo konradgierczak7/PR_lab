@@ -30,13 +30,17 @@ def edge_filter(fragment):
 
 
 def client_main():
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('10.182.16.239', 2040))
-    fragment = receive_all(client_socket)
-    processed_fragment = edge_filter(fragment)
-    send_all(client_socket, processed_fragment)
-    client_socket.close()
-    print("Fragment przetworzony i wysłany z powrotem do serwera")
+    licznik = 0
+    for i in range(4):
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect(('10.182.16.239', 2040))
+        fragment = receive_all(client_socket)
+        processed_fragment = edge_filter(fragment)
+        send_all(client_socket, processed_fragment)
+        client_socket.close()
+        licznik += 1
+        print(f"Fragment {licznik} przetworzony i wysłany z powrotem do serwera")
+    print("Wszystkie fragmenty przetworzone i wysłane z powrotem do serwera")
 
 
 if __name__ == '__main__':
