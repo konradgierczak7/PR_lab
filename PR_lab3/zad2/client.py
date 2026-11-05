@@ -31,10 +31,13 @@ def edge_filter(fragment):
 
 def client_main():
     licznik = 0
-    for i in range(4):
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect(('10.182.16.239', 2040))
-        fragment = receive_all(client_socket)
+    while True:
+        try:
+            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client_socket.connect(('10.182.16.239', 2040))
+            fragment = receive_all(client_socket)
+        except Exception:
+            break
         processed_fragment = edge_filter(fragment)
         send_all(client_socket, processed_fragment)
         client_socket.close()
